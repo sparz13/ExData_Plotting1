@@ -5,18 +5,20 @@ electric <- read.table("household_power_consumption.txt",
 ## read in a row just so I could add the headers 
 
 cnames <- read.table("household_power_consumption.txt", 
-                     header = TRUE, sstep=";", nrows=1 )
+                     header = TRUE, sep=";", nrows=1 )
 
 ## add the column names 
 
 names(electric) <- names(cnames)
 
-## created png file 
-png("plot1.png", width = 480, height = 480)
+## create date 
 
-## add transperency to background color
-par(bg=NA)
+datetime <- strptime(paste(electric$Date, electric$Time, sep = " "), 
+                     "%d/%m/%Y %H:%M:%S")
 
-hist(electric$Global_active_power, main = "Global Active Power", 
-       col ="red", xlab="Global Active Power (kilowatts)" )
+#create plot 
+png("plot2.png", width = 480, height=480)
+par(bg = NA)
+plot(datetime, electric$Global_active_power, xlab="", 
+     ylab="Global Active Power (kilowatts)", type="l")
 dev.off()
